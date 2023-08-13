@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test</title>
+
+  <script type="module" src="./lib/index.js" ></script>
+</head>
+<body>
+
+<script type="module">
+  import {client} from './lib/index.js'
+
+  const clientInstance = client("http://localhost:8080/", "username", "password")
+  clientInstance.fetch('https://github.com/rainu').then(response => {
+    console.log(response)
+  })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "@rainu/r-ray-client",
+  "version": "0.0.1",
+  "description": "The client for the r-ray proxy.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc && uglifyjs-folder lib -o lib/r-ray-client.min.js",
+    "dev": "concurrently --kill-others 'tsc --watch' 'http-server -p 3001 ./'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rainu/r-ray-client.git"
+  },
+  "author": "rainu",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "http-server": "^14.1.1",
+    "typescript": "^5.1.6",
+    "uglifyjs-folder": "^3.3.0"
+  }
+}

@@ -1,2 +1,2 @@
 # r-ray-client
-The js client for r-ray
+The js client for r-ray.
