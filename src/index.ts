@@ -10,6 +10,7 @@ type Client = {
   config: ServerConfig | null
   baseUrl: string
   loadConfig: () => Promise<void>
+  extractHeader: (response: Response, name: string) => string | null
   fetch: typeof fetch
 }
 
@@ -22,6 +23,10 @@ export const client = (url: string, username?: string, password?: string): Clien
       return fetch(`${this.baseUrl}/.meta`).then(r => r.json()).then(meta => {
         this.config = meta
       })
+    },
+
+    extractHeader(response: Response, name: string): string | null {
+      return response.headers.get(this.config?.headerPrefix + name)
     },
 
     async fetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
@@ -91,6 +96,7 @@ export const client = (url: string, username?: string, password?: string): Clien
               status = Number.parseInt(parts[1])
               statusText = parts.slice(2).join(" ")
             } else {
+              realHeaders.append(k, v)
               realHeaders.append(k.substring(headerPrefix.length), v)
             }
           }
