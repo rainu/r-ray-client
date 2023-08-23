@@ -58,7 +58,8 @@ export const client = (url: string, username?: string, password?: string): Clien
 
       // forward browser headers to target
       realInit.headers.set(this.config.forwardRequestHeaderPrefix + '0', '^accept.*$')
-      realInit.headers.set(this.config.forwardRequestHeaderPrefix + '1', '^user-agent$')
+      realInit.headers.set(this.config.forwardRequestHeaderPrefix + '1', '^content-.*$')
+      realInit.headers.set(this.config.forwardRequestHeaderPrefix + '2', '^user-agent$')
 
       // let forward the targets header directly (without any prefix)
       realInit.headers.set(this.config.forwardResponseHeaderPrefix + '0', '^accept-.*$')
