@@ -61,6 +61,9 @@ export const client = (url: string, username?: string, password?: string): Clien
         realInit.headers = new Headers()
       }
 
+      // forward response status
+      realInit.headers.set(this.config.forwardResponseStatusHeader, '1')
+
       // forward browser headers to target
       realInit.headers.set(this.config.forwardRequestHeaderPrefix + '0', '^accept.*$')
       realInit.headers.set(this.config.forwardRequestHeaderPrefix + '1', '^content-.*$')
@@ -68,11 +71,13 @@ export const client = (url: string, username?: string, password?: string): Clien
 
       // let forward the targets header directly (without any prefix)
       realInit.headers.set(this.config.forwardResponseHeaderPrefix + '0', '^accept-.*$')
-      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '1', '^content-.*$')
-      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '2', '^cache-control$')
-      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '3', '^date$')
-      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '4', '^last-modified$')
-      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '5', '^vary$')
+      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '1', '^age$')
+      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '2', '^content-.*$')
+      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '3', '^cache-control$')
+      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '4', '^date$')
+      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '5', '^expires$')
+      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '6', '^last-modified$')
+      realInit.headers.set(this.config.forwardResponseHeaderPrefix + '7', '^vary$')
 
       if (username) {
         let credentials = btoa(`${username}:${password}`)
@@ -85,8 +90,8 @@ export const client = (url: string, username?: string, password?: string): Clien
 
         //transfer headers/status
         let realHeaders = new Headers()
-        let status
-        let statusText
+        let status = response.status
+        let statusText = response.statusText
         const lHeaderPrefix = headerPrefix.toLowerCase()
 
         response.headers.forEach((v, k, p) => {
